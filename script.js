@@ -27,22 +27,33 @@ function checkAnswer() {
     const userAnswer = document.getElementById('answer').value.trim();
     const correctAnswer = questions[currentQuestionIndex].answer;
 
-    if (userAnswer === correctAnswer) {
+    const resultDiv = document.getElementById('result');
+    const scoreValueSpan = document.getElementById('scoreValue');
+
+    if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+        resultDiv.textContent = 'Correct!';
         score++;
-        document.getElementById('scoreValue').textContent = score;
+    } else {
+        resultDiv.textContent = 'Wrong!';
     }
 
-    if (currentQuestionIndex < questions.length - 1) {
-        currentQuestionIndex++;
+    scoreValueSpan.textContent = score;
+
+    currentQuestionIndex++;
+
+    if (currentQuestionIndex < questions.length) {
         document.getElementById('answer').value = '';
         displayQuestion();
+        resultDiv.textContent += ' ' + (questions.length - currentQuestionIndex) + ' questions left';
     } else {
         endGame();
     }
 }
 
 function endGame() {
-    document.getElementById('question').textContent = 'Game Over! Your final score is ' + score + '/15';
+    const resultDiv = document.getElementById('result');
+    resultDiv.textContent = 'Game Over! Your final score is ' + score + '/15';
+    resultDiv.style.color = 'blue';
     document.getElementById('answer').style.display = 'none';
     document.querySelector('button').style.display = 'none';
 }
